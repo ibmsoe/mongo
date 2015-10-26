@@ -106,7 +106,7 @@ public:
             {
                 Timer t;
                 for (int i = 0; i < 100; i++) {
-                    f.synchronousAppend(b.buf(), 8192);
+                    f.synchronousAppend(b.buf(), 65536);
                 }
                 bb[pass].append("8KB", t.millis() / 100.0);
             }
@@ -116,7 +116,7 @@ public:
                 long long x = 0;
                 for (int i = 0; i < N; i++) {
                     Timer t;
-                    f.synchronousAppend(b.buf(), 8192);
+                    f.synchronousAppend(b.buf(), 65536);
                     x += t.micros();
                     sleepmillis(4);
                 }

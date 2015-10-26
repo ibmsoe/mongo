@@ -120,7 +120,7 @@ public:
     }
 
 private:
-    static const unsigned Alignment = 8192;
+    static const unsigned Alignment = 65536;
 
     /** returns the pre-grow write position */
     inline char* grow(unsigned by) {

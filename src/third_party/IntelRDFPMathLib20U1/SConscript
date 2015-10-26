@@ -303,6 +303,11 @@ if processor == 'i386':
 elif processor == 'x86_64':
     cpp_defines['efi2'] = '1'
     cpp_defines['EFI2'] = '1'
+elif processor == 'PowerPC':
+    cpp_defines['ppc'] = '1'
+    cpp_defines['PPC'] = '1'
+    cpp_defines['ppc64'] = '1'
+    cpp_defines['PPC64'] = '1'
 else:
     assert False, "Unsupported architecture: " + processor
 
