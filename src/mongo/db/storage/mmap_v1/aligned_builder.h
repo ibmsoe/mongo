@@ -30,6 +30,11 @@
 
 #include "mongo/base/string_data.h"
 #include "mongo/bson/util/builder.h"
+#if defined(__ppc__) || defined(__ppc64__) || defined(__powerpc__) || defined(__powerpc64__)
+#define ALIGNMENT (64*1024)
+#else
+#define ALIGNMENT  (8*1024) /*2 Intel pages - twice of 4k*/
+#endif
 
 namespace mongo {
 
@@ -120,7 +125,7 @@ public:
     }
 
 private:
-    static const unsigned Alignment = 8192;
+    static const unsigned Alignment = ALIGNMENT;
 
     /** returns the pre-grow write position */
     inline char* grow(unsigned by) {

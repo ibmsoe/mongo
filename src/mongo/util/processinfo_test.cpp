@@ -34,6 +34,12 @@
 #include "mongo/unittest/unittest.h"
 
 using mongo::ProcessInfo;
+#if defined(__ppc__) || defined(__ppc64__) || defined(__powerpc__) || defined(__powerpc64__)
+#define PAGE_SIZE (64*1024)
+#else
+#define PAGE_SIZE (4*1024)
+#endif
+
 
 namespace mongo_test {
 TEST(ProcessInfo, SysInfoIsInitialized) {
@@ -53,14 +59,14 @@ const size_t PAGES = 10;
 
 TEST(ProcessInfo, BlockInMemoryDoesNotThrowIfSupported) {
     if (ProcessInfo::blockCheckSupported()) {
-        static char ptr[4096 * PAGES] = "This needs data to not be in .bss";
+        static char ptr[PAGE_SIZE  * PAGES] = "This needs data to not be in .bss";
         ProcessInfo::blockInMemory(ptr + ProcessInfo::getPageSize() * 2);
     }
 }
 
 TEST(ProcessInfo, PagesInMemoryIsSensible) {
     if (ProcessInfo::blockCheckSupported()) {
-        static char ptr[4096 * PAGES] = "This needs data to not be in .bss";
+        static char ptr[PAGE_SIZE  * PAGES] = "This needs data to not be in .bss";
         ptr[(ProcessInfo::getPageSize() * 0) + 1] = 'a';
         ptr[(ProcessInfo::getPageSize() * 8) + 1] = 'a';
         std::vector<char> result;
